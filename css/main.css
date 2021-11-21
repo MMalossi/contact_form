@@ -10,7 +10,7 @@
   min-height: 100vh;
   padding-top: 100px;
   padding-bottom: 100px;
-  background-image: linear-gradient(217deg, #c5c5c5, black, 70.71%);
+  background-image: linear-gradient(217deg, #c5c5c5, black 70.71%);
 }
 
 .contact-form-section .container {
