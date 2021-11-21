@@ -26,38 +26,84 @@
         <form role="form" method="post" action="contact-form.php">
           <div class="form-group">
             <label for="nome">Nome</label>
-            <input type="text" class="form-element" id="nome" name="nome" placeholder="Inserisci il tuo nome" required>
+            <input type="text" 
+              class="form-element" 
+              id="nome" 
+              name="nome" 
+              placeholder="Inserisci il tuo nome" 
+              value="<?php if(isset($_GET['nome'])){echo $_GET['nome'];}?>" 
+              required>
           </div>
           <div class="form-group">
             <label for="cognome">Cognome</label>
-            <input type="text" class="form-element" id="cognome" name="cognome" placeholder="Inserisci il tuo cognome"
+            <input type="text" 
+              class="form-element" 
+              id="cognome" 
+              name="cognome" 
+              placeholder="Inserisci il tuo cognome"
+              value="<?php if(isset($_GET['cognome'])){echo $_GET['cognome'];}?>" 
               required>
           </div>
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-element" id="email" name="email"
-              placeholder="Inserisci la mail a cui vuoi essere contattato" required>
+            <input type="email" 
+              class="form-element" 
+              id="email" 
+              name="email"
+              placeholder="Inserisci la mail a cui vuoi essere contattato" 
+              value="<?php if(isset($_GET['email'])){echo $_GET['email'];}?>" 
+              required>
           </div>
           <div class="form-group full">
             <label for='indirizzo'>Indirizzo</label>
-            <input type="text" class="form-element" id="indirizzo" name="indirizzo"
-              placeholder='Inserisci il tuo indirizzo' required autocomplete="off" />
+            <input type="text" 
+              class="form-element" 
+              id="indirizzo"
+              name="indirizzo"
+              placeholder='Inserisci il tuo indirizzo'
+              value="<?php if(isset($_GET['via'])){echo $_GET['via'];}?>"  
+              required 
+              autocomplete="off" />
           </div>
           <div class="form-group">
             <label for='citta'>Città</label>
-            <input type="text" class="form-element" id="citta" name="citta" placeholder="Città" required />
+            <input type="text" 
+              class="form-element" 
+              id="citta" 
+              name="citta" 
+              placeholder="Città" 
+              value="<?php if(isset($_GET['citta'])){echo $_GET['citta'];}?>" 
+              required />
           </div>
           <div class="form-group">
             <label for='provincia'>Provincia</label>
-            <input type="text" class="form-element" id="provincia" name="provincia" placeholder='Provincia' required />
+            <input type="text" 
+              class="form-element" 
+              id="provincia" 
+              name="provincia" 
+              placeholder='Provincia' 
+              value="<?php if(isset($_GET['provincia'])){echo $_GET['provincia'];}?>" 
+              required />
           </div>
           <div class="form-group">
             <label for='CAP'>CAP</label>
-            <input type="tel" class="form-element" id="CAP" name="CAP" placeholder='CAP' required />
+            <input type="tel" 
+              class="form-element" 
+              id="CAP" 
+              name="CAP" 
+              placeholder='CAP' 
+              value="<?php if(isset($_GET['CAP'])){echo $_GET['CAP'];}?>" 
+              required />
           </div>
           <div class="form-group">
             <label for='nazione'>Nazione</label>
-            <input type="text" class="form-element" id="nazione" name="nazione" placeholder='Nazione' required />
+            <input type="text" 
+              class="form-element" 
+              id="nazione" 
+              name="nazione" 
+              placeholder='Nazione' 
+              value="<?php if(isset($_GET['nazione'])){echo $_GET['nazione'];}?>" 
+              required />
           </div>
           <div class="submit-group">
             <input type="submit" value="Contattaci" name="submit" />
@@ -73,6 +119,8 @@
             echo "<div class='form-group full error'>Il CAP dev'essere un valore numerico</div>";
           } else if (strpos($url, "error=invalidEmail") == true){
             echo "<div class='form-group full error'>Verifica di aver inserito una mail corretta</div>";
+          } else if (strpos($url, "error=db") == true){
+            echo "<div class='form-group full error'>Si è verificato un errore tecnico, riprova più tardi</div>";
           } else if (strpos($url, "result=submitted") == true){
             echo "<div class='form-group full success'>Dati salvati correttamente, ti ringraziamo per averci contattato!</div>";
           }
