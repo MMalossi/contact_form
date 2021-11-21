@@ -7,6 +7,7 @@
         $dbName = "contatti"; 
         $dbCon = mysqli_connect($hName,$uName,$password,"$dbName");
         if(!$dbCon){
+            header("Location: ./index.php?error=db");
             die('Could not Connect MySql Server' . mysqli_connect_error());
         }
 
@@ -20,31 +21,39 @@
         $nazione = mysqli_real_escape_string($dbCon, $_POST['nazione']);
 
         if(empty($nome) || empty($cognome) || empty($email) || empty($indirizzo) || empty($citta) || empty($provincia) || empty($CAP) || empty($nazione)){
-            header("Location: ./index.php?error=emptyField");
+            header("Location: ./index.php?error=emptyField&nome=".$nome."&cognome=".$cognome."&email=".$email."&via=".$indirizzo."&citta=".$citta."&provincia=".$provincia."&CAP=".$CAP."&nazione=".$nazione);
             exit();
         } else if(!preg_match("/^[a-zA-Z]*$/", $nome) || !preg_match("/^[a-zA-Z]*$/", $cognome) || !preg_match("/^[a-zA-Z]*$/", $citta)){
-                header("Location: ./index.php?error=invalidCharacter");
+                header("Location: ./index.php?error=invalidCharacter&nome=".$nome."&cognome=".$cognome."&email=".$email."&via=".$indirizzo."&citta=".$citta."&provincia=".$provincia."&CAP=".$CAP."&nazione=".$nazione);
                 exit();
         } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            header("Location: ./index.php?error=invalidEmail");
+            header("Location: ./index.php?error=invalidEmail&nome=".$nome."&cognome=".$cognome."&email=".$email."&via=".$indirizzo."&citta=".$citta."&provincia=".$provincia."&CAP=".$CAP."&nazione=".$nazione);
             exit();
         } else if(!preg_match("/^[0-9]*$/", $CAP) ){
-            header("Location: ./index.php?error=notNumericCap");
+            header("Location: ./index.php?error=notNumericCap&nome=".$nome."&cognome=".$cognome."&email=".$email."&via=".$indirizzo."&citta=".$citta."&provincia=".$provincia."&CAP=".$CAP."&nazione=".$nazione);
             exit();
         }
     
         $query = "INSERT INTO datiContatto (nome,cognome,email,indirizzo,citta,provincia,CAP,nazione,dataRichiesta)
-        VALUES ('$nome','$cognome','$email','$indirizzo','$citta','$provincia','$CAP','$nazione', now())";
-        mysqli_query($dbCon, $query);
-        $lastId = mysqli_insert_id($dbCon);
-    
-        if (!empty($lastId)) {
-            $message = "Informazioni salvate correttamente; grazie di averci contattato";
+        VALUES ('?','?','?','?','?','?','?','?', now())";
+
+        $stmt = mysqli_stmt_init($dbCon);
+
+        if(!mysqli_stmt_prepare($stmt, $sql)){
+            header("Location: ./index.php?error=db");
+            exit();
+        } else {
+            mysqli_stmt_bind_param($stmt, "ssssssss", $nome, $cognome, $email, $indirizzo, $citta, $provincia, $CAP, $nazione);
+            mysqli_stmt_execute($stmt);
         }
 
         header("Location: ./index.php?result=submitted");
+        mysqli_close($dbCon);
+        exit();
 
-        mysqli_close($link);
+    } else {
+        header("Location: ./index.php");
+        exit();
     }
 
 ?>
